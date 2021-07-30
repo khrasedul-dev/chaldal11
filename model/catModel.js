@@ -9,7 +9,10 @@ const catSchema = mongoose.Schema({
     },
     photo: {
         type: String
-    },  
+    }, 
+    route: {
+        type:String
+    },
     date:{
         type: Date,
         default: Date.now

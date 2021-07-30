@@ -78,6 +78,8 @@ couponRouter.post('/add',(req,res)=>{
         discount:discount,
         minSpend:minSpend
     })
+
+
     couponData.save((err,data)=>{
         if(err){
             console.log(err)

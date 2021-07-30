@@ -87,6 +87,8 @@ proRoute.post('/add/new',upload.single('file'),(req,res)=>{
 
     })
 
+    console.log(productData)
+
     productData.save((err,data)=>{
         if(err){
             console.log(err)

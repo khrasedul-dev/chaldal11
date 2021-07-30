@@ -26,7 +26,7 @@ const upload = multer({storage:storage})
 catRouter.get('/',(req,res)=>{
    catObj.find({},(err,cat)=>{
        res.json(cat)
-   }).skip(12)
+   }).skip(0)
 })
 
 //single cat fetch
@@ -50,11 +50,13 @@ catRouter.post('/add',upload.single('file'),(req,res)=>{
     const name = req.body.name
     const photo = req.file.filename
     const image = "http://localhost:8888/uploads/"+photo
+    const route = req.body.route
     
     const catData = new catObj({
         name:name,
         image:image,
-        photo:photo
+        photo:photo,
+        route:route
     })
     catData.save((err)=>{
         if(err){
@@ -73,6 +75,7 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
     const catID = req.params.id
 
     const name = req.body.name
+    const route = req.body.route
 
     //check condition
     const catforID = {
@@ -84,7 +87,8 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
     if(!hasFile){
 
         const updateData = {
-            name:name
+            name:name,
+            route:route
         }
 
         catObj.findOneAndUpdate(catforID,updateData,(err,result)=>{
@@ -97,7 +101,8 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
         const updateData = {
             name:name,
             image:image,
-            photo:photo
+            photo:photo,
+            route:route
         }
 
         catObj.findOneAndUpdate(catforID,updateData,(err,result)=>{
