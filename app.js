@@ -9,10 +9,13 @@ const workerRouter = require('./controller/workerHandler')
 const couponRouter = require('./controller/couponHandler')
 const addProductRouter = require('./controller/productRouter')
 
-//database connection
-mongoose.connect("mongodb+srv://chaldal:rps1234@cluster0.lea2e.mongodb.net/chaldal?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify: false}).catch((err)=>{
-    console.log(err)
-})
+// //web database connection
+// mongoose.connect("mongodb+srv://chaldal:rps1234@cluster0.lea2e.mongodb.net/chaldal?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify: false}).catch((err)=>{
+//     console.log(err)
+// })
+
+//local database
+mongoose.connect('mongodb://localhost:27017/chaldal')
 
 //call express function
 const app = express()
