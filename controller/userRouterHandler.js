@@ -14,7 +14,7 @@ const userRouter = express.Router();
 //multer config
 const storage = multer.diskStorage({
     destination: (req,file,cb)=>{
-        cb(null,'/uploads')
+        cb(null,'public/uploads')
     },
     filename: (req,file,cb)=>{
         cb(null,file.fieldname+'-'+Date.now()+file.originalname)
@@ -33,6 +33,35 @@ userRouter.get('/:id',(req,res)=>{
    }).select({
        password:0
    })
+})
+
+//user photo upload
+userRouter.put('/update/photo/:id',upload.single('file'),(req,res)=>{
+    //get id from url
+    const id = req.params.id
+
+    const photo = req.file.filename
+    const image = "http://localhost:8888/uploads/"+photo
+
+    const updateByID = {
+        _id: id
+    }
+    
+    const updateData = {
+        photo: photo,
+        image: image
+    }
+    userObj.findOneAndUpdate(updateByID,updateData,(err,data)=>{
+
+        if(err){
+            console.log(err)
+        }
+        else{
+            res.json({"message":"Photo Uploded"})
+        }
+
+        console.log(data)
+    })
 })
 
 //user signup 
@@ -80,7 +109,7 @@ userRouter.post('/add',upload.single('file'),(req,res)=>{
                 });
                 
             }else{
-                const photo = req.file.fieldname
+                const photo = req.file.filename
                 const image = "http://localhost:8888/uploads/"+photo
 
                 const userData = new userObj({
@@ -129,7 +158,7 @@ userRouter.post('/login',(req,res)=>{
             res.json({"massege":"Email Not found"})
         }else{
             if(data.password === password){
-                res.json({id:data._id,role:data.role})
+                res.json({"status":true,id:data._id,role:data.role})
             }else{
                 res.json({"massege":"Password Incorrect"})
             }
