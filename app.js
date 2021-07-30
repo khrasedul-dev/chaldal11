@@ -15,7 +15,7 @@ const addProductRouter = require('./controller/productRouter')
 // })
 
 //local database
-mongoose.connect('mongodb://localhost:27017/chaldal')
+mongoose.connect('mongodb://localhost:27017/chaldal',{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify: false})
 
 //call express function
 const app = express()
