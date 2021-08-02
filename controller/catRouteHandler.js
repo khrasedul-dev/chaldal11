@@ -4,9 +4,14 @@ const mongoose = require('mongoose')
 const multer = require('multer')
 const fs  = require('fs')
 const catSchema = require('../model/catModel')
+//sub cat model import
+const subCatSchema = require('../model/subCatModel')
 
 //define model
 const catObj = mongoose.model('categories',catSchema)
+
+//sub cat model define
+const subCat = mongoose.model('subCategories',subCatSchema)
 
 //express router imoport
 const catRouter = express.Router();
@@ -58,14 +63,13 @@ catRouter.post('/add',upload.single('file'),(req,res)=>{
         photo:photo,
         route:route
     })
-    catData.save((err)=>{
-        if(err){
+    catData.save((err,data)=>{
+        if (err) {
             console.log(err)
-        }else{
-            res.json({"massege":"Data inserted succesfully"})
+        } else {
+            res.json({"massege":"Data Insert Successfully"})
         }
-    });
-    
+    })
 })
 
 
@@ -92,7 +96,11 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
         }
 
         catObj.findOneAndUpdate(catforID,updateData,(err,result)=>{
-            res.json(result)
+            if (err) {
+                console.log(err)
+            } else {
+                res.json({"massege":"Data Insert Successfully"})
+            }
         })
     }else{
         const photo = req.file.filename
@@ -113,7 +121,11 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
                 const imageName = result.photo
 
                 fs.unlink('public/uploads/'+imageName,(err)=>{
-                    console.log(err)
+                    if (err) {
+                        console.log(err)
+                    } else {
+                        res.json({"massege":"Data Insert Successfully"})
+                    }
                 })
             }
         })
@@ -125,25 +137,36 @@ catRouter.delete('/delete/:id',(req,res)=>{
     //get param id
     const catID = req.params.id
 
-    const deleteData = {
-        _id: catID
+    //sub cat find by id
+    const findSubCatByID = {
+        parent:catID
     }
 
-    catObj.findOneAndDelete(deleteData,(err,result)=>{
-
-        if(err){
-            console.log(err)
-        }else{
-            const imageName = result.photo
-
-            fs.unlink('public/uploads/'+imageName,(err)=>{
-                console.log(err)
+    //check have sub categories
+    subCat.countDocuments(findSubCatByID,(err,data)=>{
+        if (data>0) {
+            res.json({"massage":"failure"})
+        } else {
+            const deleteData = {
+                _id: catID
+            }
+        
+            catObj.findOneAndDelete(deleteData,(err,result)=>{
+        
+                if(err){
+                    console.log(err)
+                }else{
+                    const imageName = result.photo
+        
+                    fs.unlink('public/uploads/'+imageName,(err)=>{
+                        console.log(err)
+                    })
+                    res.json({"massege":"Data delete successfully"})
+                }
+               
             })
-            res.json({"massege":"Data delete successfully"})
         }
-       
     })
-
 })
 
 module.exports = catRouter

@@ -1,26 +1,27 @@
 const mongoose = require('mongoose')
 
 const subCatSchema = mongoose.Schema({
-    catName: {
+    name: {
         type: String
     },
-    parentCat: {
-        type:mongoose.Types.ObjectId,
-        ref:"categories"
+    parent: {
+        type: mongoose.Types.ObjectId,
+        ref: "categories"
     },
-    image:{
-        type:String
-    },
-    photo:{
+    image: {
         type: String
     },
+    photo: {
+        type: String
+    }, 
     route: {
         type:String
     },
     date:{
-        type: String,
+        type: Date,
         default: Date.now
     }
+
 })
 
 module.exports = subCatSchema

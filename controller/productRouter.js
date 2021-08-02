@@ -61,7 +61,7 @@ proRoute.post('/cat/:catID',(req,res)=>{
 proRoute.post('/add/new',upload.single('file'),(req,res)=>{
 
     const name = req.body.name
-    const price = req.body.price
+    const purchasePrice = req.body.purchasePrice
     const sellPrice = req.body.sellPrice
     const desc = req.body.description
     const photo = req.file.filename
@@ -72,10 +72,11 @@ proRoute.post('/add/new',upload.single('file'),(req,res)=>{
     // discount manage
     const discountType = req.body.discountType
     const discount = req.body.discount
+    const discountPrice = req.body.discountPrice
 
     const productData = new proObj({
         name:name,
-        price:price,
+        purchasePrice:purchasePrice,
         sellPrice:sellPrice,
         desc:desc,
         catID: catID,
@@ -83,7 +84,8 @@ proRoute.post('/add/new',upload.single('file'),(req,res)=>{
         photo:photo,
         quantity:quantity,
         discountType: discountType,
-        discount: discount
+        discount: discount,
+        discountPrice: discountPrice
 
     })
 
@@ -106,7 +108,7 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
 
     //Recive body Value
     const name = req.body.name
-    const price = req.body.price
+    const purchasePrice = req.body.purchasePrice
     const sellPrice = req.body.sellPrice
     const desc = req.body.description
     const catID = req.body.category
@@ -115,6 +117,7 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
     //discount manage
     const discountType = req.body.discountType
     const discount = req.body.discount
+    const discountPrice = req.body.discountPrice
 
      //find data 
      const findProductID = {
@@ -129,13 +132,14 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
 
         const productUpdatedData = {
             name:name,
-            price:price,
+            purchasePrice:purchasePrice,
             sellPrice:sellPrice,
             desc:desc,
             catID: catID,
             quantity:quantity,
             discountType: discountType,
-            discount: discount
+            discount: discount,
+            discountPrice:discountPrice
         }
 
         proObj.findOneAndUpdate(findProductID,productUpdatedData,(err,data)=>{
@@ -148,7 +152,7 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
 
         const productUpdatedData = {
             name:name,
-            price:price,
+            purchasePrice:purchasePrice,
             sellPrice:sellPrice,
             desc:desc,
             image:image,
@@ -156,14 +160,15 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
             quantity:quantity,
             photo:photo,
             discountType: discountType,
-            discount: discount
+            discount: discount,
+            discountPrice:discountPrice
         }
 
         proObj.findOneAndUpdate(findProductID,productUpdatedData,(err,data)=>{
 
             const fileName = data.photo
             fs.unlink('public/uploads/'+fileName,(error)=>{
-                
+                console.log(err)
             })
 
             res.json({"Status":true})

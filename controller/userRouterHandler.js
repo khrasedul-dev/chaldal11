@@ -104,7 +104,7 @@ userRouter.post('/add',upload.single('file'),(req,res)=>{
                     if(err){
                         console.log(err)
                     }else{
-                        res.json({"massege":"Data Insert"})
+                        res.json({"status":true,"massege":"Signup successfull"})
                     }
                 });
                 
@@ -129,7 +129,7 @@ userRouter.post('/add',upload.single('file'),(req,res)=>{
                     if(err){
                         console.log(err)
                     }else{
-                        res.json({"massege":"Data Insert"})
+                        res.json({"status":true,"massege":"Signup successfull"})
                     }
                 });
             }  
@@ -155,12 +155,12 @@ userRouter.post('/login',(req,res)=>{
     userObj.findOne(inputMail,(err,data)=>{
 
         if (data===null){
-            res.json({"massege":"Email Not found"})
+            res.json({"massege":"Email Not found."})
         }else{
             if(data.password === password){
                 res.json({"status":true,id:data._id,role:data.role})
             }else{
-                res.json({"massege":"Password Incorrect"})
+                res.json({"massege":"Password Incorrect."})
             }
         }
     })

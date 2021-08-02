@@ -4,7 +4,7 @@ const productSchema = mongoose.Schema({
     name: {
         type: String
     },
-    price: {
+    purchasePrice: {
         type: String
     },
     sellPrice: {
@@ -24,10 +24,17 @@ const productSchema = mongoose.Schema({
         type:String
     },
     discountType:{
-        type: String
+        type: String,
+        default: "%"
     },
     discount:{
-        type:String
+        type: String,
+        trim: true,
+        default: "0"
+    },
+    discountPrice:{
+        type: String,
+        default: "0"
     },
     photo: {
         type:String
