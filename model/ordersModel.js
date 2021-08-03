@@ -1,24 +1,30 @@
 const mongoose = require('mongoose')
 
+
 const orderSchema = mongoose.Schema({
-    customerID:{
+    useId:{
         type: mongoose.Types.ObjectId,
         ref: "users"
     },
-    productID: {
-        type: mongoose.Types.ObjectId,
-        ref: "products"
-    },
-    quantity: {
-        type: String
-    },
+    products:[
+        {
+            productID:{
+                type:mongoose.Types.ObjectId,
+                ref:"products"
+            },
+            name:{
+                type:String
+            },
+            price:{
+                type:String
+            },
+            quantity:{
+                type:String
+            }
+
+        }
+    ],
     totalPrice: {
-        type: String
-    },
-    discountsType: {
-        type:String
-    },
-    discount: {
         type: String
     },
     couponCode: {
@@ -27,16 +33,12 @@ const orderSchema = mongoose.Schema({
     couponDiscount: {
         type: String
     },
-    paymentMethod: {
-        type: String
-    },
     orderStatus: {
         type: String,
         default: "Pending"
     },
     date:{
         type: String,
-        default: Date
     }
     
 })

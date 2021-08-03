@@ -4,11 +4,11 @@ const mongoose = require('mongoose')
 const ordersSchema = require('../model/ordersModel')
 
 
-//create order model 
-const orderModelObj = mongoose.model('orders',ordersSchema)
-
 //define custom router
 const orderRouter = express.Router()
+
+//create order model 
+const orderModelObj = mongoose.model('orders',ordersSchema)
 
 //get all orders
 orderRouter.get('/',(req,res)=>{
@@ -51,7 +51,7 @@ orderRouter.get('/user/:id',(req,res)=>{
 
     //condition
     const condition = {
-        customerID: id
+        useId: id
     }
     orderModelObj.find(condition,(err,data)=>{
         if(err){
@@ -63,39 +63,37 @@ orderRouter.get('/user/:id',(req,res)=>{
 })
 
 //add orders in database
-orderRouter.post('/add',(req,res)=>{
+orderRouter.post('/add/new',(req,res)=>{
 
     //get all data from body
-    const customerID = req.body.customerID
-    const productID = req.body.productID
-    const quantity = req.body.quantity
+    const useId = req.body.useId
     const totalPrice = req.body.totalPrice
+    const products = req.body.products
     const discountsType = req.body.discountsType
     const discount = req.body.discount
     const couponCode = req.body.couponCode
     const couponDiscount = req.body.couponDiscount
     const orderStatus = req.body.orderStatus
-    const paymentMethod = req.body.paymentMethod
+    const date = new Date().toLocaleString()
 
     //prepare for database
     const orderData = new orderModelObj({
-        customerID:customerID,
-        productID:productID,
-        quantity:quantity,
+        useId:useId,   
+        products:products,
         totalPrice:totalPrice,
         discountsType: discountsType,
         discount: discount,
         couponCode:couponCode,
         couponDiscount: couponDiscount,
         orderStatus:orderStatus,
-        paymentMethod:paymentMethod
+        date:date
     })
 
-    orderModelObj.save((err)=>{
+    orderData.save((err)=>{
         if(err){
             console.log(err)
         }else{
-            res.json({"Status":"Data Insert"})
+            res.json({"status":true})
         }
     })
 
@@ -123,7 +121,7 @@ orderRouter.put('/update/:id',(req,res)=>{
         if(err){
             console.log(err)
         }else{
-            // res.json({"Data updated"})
+            res.json({status:true})
         }
     })
 })
@@ -146,3 +144,6 @@ orderRouter.delete('/delete/:id',(req,res)=>{
         }
     })
 })
+
+
+module.exports = orderRouter

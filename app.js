@@ -9,6 +9,7 @@ const workerRouter = require('./controller/workerHandler')
 const couponRouter = require('./controller/couponHandler')
 const addProductRouter = require('./controller/productRouter')
 const subCatRoute = require('./controller/subCatRouteHandler')
+const orderRouteHandler = require('./controller/orderRouteHandler')
 
 // //web database connection
 // mongoose.connect("mongodb+srv://chaldal:rps1234@cluster0.lea2e.mongodb.net/chaldal?retryWrites=true&w=majority",{useNewUrlParser:true,useUnifiedTopology:true,useFindAndModify: false}).catch((err)=>{
@@ -58,6 +59,11 @@ app.use('/worker',workerRouter)
 
 //coupon route
 app.use('/coupon',couponRouter)
+
+//order router
+app.use('/order',orderRouteHandler)
+
+
 
 //create a server
 app.listen(process.env.PORT || 8888,(err)=>{
