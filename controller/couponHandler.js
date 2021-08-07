@@ -24,7 +24,7 @@ couponRouter.get('/',(req,res)=>{
         }else{
             res.json(data)
         }
-    })
+    }).sort({'date':-1})
 })
 
 //specefic coupon

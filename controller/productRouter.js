@@ -4,6 +4,8 @@ const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
 const productSchema = require('../model/productModel')
+//global var
+const url = require('../lib/url')
 
 
 const proObj = mongoose.model('products',productSchema)
@@ -28,7 +30,14 @@ const upload = multer({storage:storage})
 proRoute.get('/',(req,res)=>{
     proObj.find({},(err,data)=>{
         res.json(data)
-    })
+    }).sort({'date':-1})
+})
+
+//fetch product last 10
+proRoute.get('/last',(req,res)=>{
+    proObj.find({},(err,data)=>{
+        res.json(data)
+    }).sort({'date':-1}).limit(4)
 })
 
 //single product
@@ -57,6 +66,19 @@ proRoute.post('/cat/:catID',(req,res)=>{
     })    
 })
 
+//single category data fetch last 10
+proRoute.post('/cat/last/:catID',(req,res)=>{
+    //get id form url
+    const catID = req.params.catID
+
+    const catfindbyid = {
+        catID:catID
+    }
+    proObj.find(catfindbyid).sort({'date': -1}).limit(8).exec((err,data)=>{
+        res.json(data)
+    })    
+})
+
 //add product
 proRoute.post('/add/new',upload.single('file'),(req,res)=>{
 
@@ -65,7 +87,7 @@ proRoute.post('/add/new',upload.single('file'),(req,res)=>{
     const sellPrice = req.body.sellPrice
     const desc = req.body.description
     const photo = req.file.filename
-    const image = "http://localhost:8888/uploads/"+photo
+    const image = url+photo
     const catID = req.body.category
     const quantity = req.body.quantity
 
@@ -148,7 +170,7 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
 
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const productUpdatedData = {
             name:name,

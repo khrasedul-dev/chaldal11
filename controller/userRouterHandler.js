@@ -3,6 +3,8 @@ const express = require('express')
 const mongoose = require('mongoose')
 const multer = require('multer')
 const userSchema = require('../model/userModel')
+//global var
+const url = require('../lib/url')
 
 
 
@@ -41,7 +43,7 @@ userRouter.put('/update/photo/:id',upload.single('file'),(req,res)=>{
     const id = req.params.id
 
     const photo = req.file.filename
-    const image = "http://localhost:8888/uploads/"+photo
+    const image = url+photo
 
     const updateByID = {
         _id: id
@@ -110,7 +112,7 @@ userRouter.post('/add',upload.single('file'),(req,res)=>{
                 
             }else{
                 const photo = req.file.filename
-                const image = "http://localhost:8888/uploads/"+photo
+                const image = url+photo
 
                 const userData = new userObj({
                     name:name,
@@ -200,7 +202,7 @@ userRouter.put('/update/:id',upload.single('file'),(req,res)=>{
         })
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const updateData = {
             name:name,

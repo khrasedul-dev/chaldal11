@@ -6,6 +6,8 @@ const fs  = require('fs')
 const catSchema = require('../model/catModel')
 //sub cat model import
 const subCatSchema = require('../model/subCatModel')
+//global var
+const url = require('../lib/url')
 
 //define model
 const catObj = mongoose.model('categories',catSchema)
@@ -54,7 +56,7 @@ catRouter.get('/:id',(req,res)=>{
 catRouter.post('/add',upload.single('file'),(req,res)=>{
     const name = req.body.name
     const photo = req.file.filename
-    const image = "http://localhost:8888/uploads/"+photo
+    const image = url+photo
     const route = req.body.route
     
     const catData = new catObj({
@@ -104,7 +106,7 @@ catRouter.put('/update/:id',upload.single('file'),(req,res)=>{
         })
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const updateData = {
             name:name,

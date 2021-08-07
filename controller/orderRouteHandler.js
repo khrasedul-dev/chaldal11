@@ -22,7 +22,7 @@ orderRouter.get('/',(req,res)=>{
         }else{
             res.json(data)
         }
-    })
+    }).sort({'date':-1})
 })
 
 //get specific orders
@@ -59,7 +59,7 @@ orderRouter.get('/user/:id',(req,res)=>{
         }else{
             res.json(data)
         }
-    })
+    }).sort({'date':-1})
 })
 
 //add orders in database

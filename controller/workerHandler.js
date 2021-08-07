@@ -5,6 +5,8 @@ const path = require('path')
 const fs = require('fs')
 const multer = require('multer')
 const workerSchema = require('../model/workerModel')
+//global var
+const url = require('../lib/url')
 
 
 //express router define
@@ -35,7 +37,7 @@ workerRouter.get('/',(req,res)=>{
         }else{
             res.json(data)
         }
-    })
+    }).sort({'date':-1})
 })
 
 //worker fetch by id
@@ -89,7 +91,7 @@ workerRouter.post('/add',upload.single('file'),(req,res)=>{
 
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const workerData = new workerObj({
             name:name,
@@ -149,7 +151,7 @@ workerRouter.put('/update/:id',upload.single('file'),(req,res)=>{
 
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
         
         const updateData = {
             name:name,

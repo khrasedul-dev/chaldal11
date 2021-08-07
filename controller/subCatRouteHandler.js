@@ -6,6 +6,8 @@ const fs  = require('fs')
 const subCatSchema = require('../model/subCatModel')
 //import product model
 const productSchema = require('../model/productModel')
+//global var
+const url = require('../lib/url')
 
 //define sub cat model
 const sp = mongoose.model('subCategories',subCatSchema)
@@ -94,7 +96,7 @@ subCatRouter.post('/add',upload.single('file'),(req,res)=>{
     }else{
         //get file
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const catData = new sp({
             name:name,
@@ -145,7 +147,7 @@ subCatRouter.put('/update/:id',upload.single('file'),(req,res)=>{
         })
     }else{
         const photo = req.file.filename
-        const image = "http://localhost:8888/uploads/"+photo
+        const image = url+photo
 
         const updateData = {
             name:name,
