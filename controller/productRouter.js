@@ -201,6 +201,34 @@ proRoute.put('/update/:id',upload.single('file'),(req,res)=>{
     
 })
 
+//product sell quantity update
+proRoute.put('/update/s/q',(req,res)=>{
+
+    //get id and quantity from body
+    const id = req.body.id
+    const quantity = parseInt(req.body.sellQuantity)
+
+    //find by id 
+    const findByID = {
+        _id : id
+    }
+    proObj.find(findByID,(err,data)=>{
+        const oldSellQuantity = parseInt(data[0].sellQuantity)
+
+        const finalQuantity = quantity+oldSellQuantity
+
+        const updateQuantity = {
+            sellQuantity: finalQuantity
+        }
+        proObj.findOneAndUpdate(findByID,updateQuantity,(err)=>{
+            if (err) {
+                console.log(err)
+            } else {
+                res.json({"status":true})
+            }
+        })
+    })
+})
 
 //product delete
 proRoute.delete('/delete/:id',(req,res)=>{

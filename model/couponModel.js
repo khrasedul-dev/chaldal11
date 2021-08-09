@@ -7,6 +7,11 @@ const couponSchema = mongoose.Schema({
     discount: {
         type: String
     },
+    catID:{
+        type: mongoose.Types.ObjectId,
+        ref: 'subCategories',
+        default: "No"
+    },
     minSpend: {
         type: String
     },  

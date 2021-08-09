@@ -23,6 +23,10 @@ const productSchema = mongoose.Schema({
     quantity:{
         type:String
     },
+    sellQuantity:{
+        type:String, 
+        default: '0'
+    },
     discountType:{
         type: String,
         default: "%"

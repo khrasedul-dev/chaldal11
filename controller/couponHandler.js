@@ -24,7 +24,7 @@ couponRouter.get('/',(req,res)=>{
         }else{
             res.json(data)
         }
-    }).sort({'date':-1})
+    }).populate("catID").sort({'date':-1})
 })
 
 //specefic coupon
@@ -72,11 +72,13 @@ couponRouter.post('/add',(req,res)=>{
     const couponCode = req.body.code
     const discount = req.body.discount
     const minSpend = req.body.spend
+    const catID = req.body.catID
 
     const couponData = new couponObj({
         code:couponCode,
         discount:discount,
-        minSpend:minSpend
+        minSpend:minSpend,
+        catID: catID
     })
 
 
@@ -99,6 +101,7 @@ couponRouter.put('/update/:id',(req,res)=>{
     const couponCode = req.body.code
     const discount = req.body.discount
     const minSpend = req.body.spend
+    const  catID = req.body.catID
 
     const findBy = {
         _id: id
@@ -106,7 +109,8 @@ couponRouter.put('/update/:id',(req,res)=>{
     const updateData = {
         code:couponCode,
         discount:discount,
-        minSpend:minSpend
+        minSpend:minSpend,
+        catID:catID
     }
     couponObj.findOneAndUpdate(findBy,updateData,(err,data)=>{
         if(err){
