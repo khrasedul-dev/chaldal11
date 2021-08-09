@@ -61,7 +61,7 @@ proRoute.post('/cat/:catID',(req,res)=>{
     const catfindbyid = {
         catID:catID
     }
-    proObj.find(catfindbyid).exec((err,data)=>{
+    proObj.find(catfindbyid).sort({'date':-1}).exec((err,data)=>{
         res.json(data)
     })    
 })
